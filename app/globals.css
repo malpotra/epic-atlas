@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+/* Design rules live in .claude/skills/neo-brutalist-ui/SKILL.md */
+:root {
+  --ink: #111111;
+  --paper: #fff6e0;
+  --white: #ffffff;
+
+  --odyssey: #5b9dff;
+  --iliad: #ff6a45;
+  --ramayana: #ffc91f;
+  --mahabharata: #2fd08c;
+
+  --border: 4px;
+  --shadow: 6px 6px 0 var(--ink);
+  --shadow-lg: 10px 10px 0 var(--ink);
+  --shadow-sm: 3px 3px 0 var(--ink);
+
+  /* The active epic overrides this through [data-epic]. */
+  --accent: var(--odyssey);
+}
+
+[data-epic="odyssey"] { --accent: var(--odyssey); }
+[data-epic="iliad"] { --accent: var(--iliad); }
+[data-epic="ramayana"] { --accent: var(--ramayana); }
+[data-epic="mahabharata"] { --accent: var(--mahabharata); }
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-accent: var(--accent);
+  --color-odyssey: var(--odyssey);
+  --color-iliad: var(--iliad);
+  --color-ramayana: var(--ramayana);
+  --color-mahabharata: var(--mahabharata);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-heading);
+  --font-mono: var(--font-label);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+:focus-visible {
+  outline: 4px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* In the components layer so utilities such as bg-accent or font-display can override them. */
+@layer components {
+.brut-card {
+  background: var(--white);
+  border: var(--border) solid var(--ink);
+  box-shadow: var(--shadow);
+}
+
+/* Presses into its shadow: the offset and the shadow always add up to the same total. */
+.brut-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: var(--border) solid var(--ink);
+  background: var(--white);
+  box-shadow: var(--shadow);
+  font-family: var(--font-label), monospace;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 90ms linear, box-shadow 90ms linear;
+}
+.brut-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.brut-btn:active,
+.brut-btn[aria-pressed="true"] {
+  transform: translate(6px, 6px);
+  box-shadow: 0 0 0 var(--ink);
+}
+.brut-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  background: var(--white);
+  border: 3px solid var(--ink);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-label), monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.live-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  flex: none;
+  border: 2px solid var(--ink);
+  background: #bbbbbb;
+}
+.live-badge[data-status="live"] .live-dot {
+  background: var(--mahabharata);
+  animation: blink 1.2s steps(2, jump-none) infinite;
+}
+.live-badge[data-status="offline"] .live-dot {
+  background: var(--iliad);
+}
+}
+
+/* Marquee: the track holds two identical copies and moves by one copy's width. */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+
+/* Map route */
+.route-travelled {
+  transition: stroke-dasharray 500ms ease-out;
+}
+@starting-style {
+  .route-travelled {
+    stroke-dasharray: 0 100;
+  }
+}
+
+.map-stop {
+  cursor: pointer;
+  outline: none;
+}
+.map-stop .stop-box {
+  transition: transform 90ms linear;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.map-stop:hover .stop-box {
+  transform: scale(1.18);
+}
+.map-stop:focus-visible .stop-focus {
+  stroke: var(--ink);
+}
+
+/* Hero art */
+.art-bob {
+  animation: bob 3.2s ease-in-out infinite;
+}
+.art-spin {
+  animation: spin 5s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.timeline-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink) transparent;
+}
+
+@keyframes blink {
+  from { opacity: 1; }
+  to { opacity: 0.25; }
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+@keyframes bob {
+  50% { transform: translateY(-8px); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

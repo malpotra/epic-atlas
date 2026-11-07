@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Epic Atlas: a neo-brutalist card in the four epic colours, with a compass point at the centre.
+       Colours are copied from the tokens in app/globals.css, because favicons can't read CSS variables. -->
+  <style>@media (prefers-color-scheme: dark) { .shadow { fill: #fff6e0; } }</style>
+  <rect class="shadow" x="6" y="6" width="26" height="26" fill="#111111"/>
+  <rect x="0" y="0" width="26" height="26" fill="#111111"/>
+  <rect x="3" y="3" width="9" height="9" fill="#5b9dff"/>
+  <rect x="14" y="3" width="9" height="9" fill="#ff6a45"/>
+  <rect x="3" y="14" width="9" height="9" fill="#ffc91f"/>
+  <rect x="14" y="14" width="9" height="9" fill="#2fd08c"/>
+  <polygon points="13,5 18,13 13,21 8,13" fill="#fff6e0" stroke="#111111" stroke-width="2" stroke-linejoin="miter"/>
+</svg>

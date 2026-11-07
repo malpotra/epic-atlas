@@ -1,0 +1,24 @@
+services:
+  app:
+    build: .
+    # One replica is always on 8080. To run several, pass a range so each gets its own
+    # port: APP_PORTS=8080-8085 docker compose up --scale app=2
+    ports:
+      - "${APP_PORTS:-8080}:80"
+    environment:
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  redis:
+    image: redis:8-alpine
+    # Presence data is short-lived, so nothing needs saving to disk.
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
